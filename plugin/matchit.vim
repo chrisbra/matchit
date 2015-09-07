@@ -48,40 +48,40 @@ let s:patBR = ""
 let s:save_cpo = &cpo
 set cpo&vim
 
-nnoremap <silent> <Plug>MatchItNormalForward     :<C-U>call <SID>Match_wrapper('',1,'n')<CR>
-nnoremap <silent> <Plug>MatchItNormalBackward    :<C-U>call <SID>Match_wrapper('',0,'n')<CR>
-vnoremap <silent> <Plug>MatchItVisualForward     :<C-U>call <SID>Match_wrapper('',1,'v')<CR>m'gv``
-vnoremap <silent> <Plug>MatchItVisualBackward    :<C-U>call <SID>Match_wrapper('',0,'v')<CR>m'gv``
-onoremap <silent> <Plug>MatchItOperationForward  v:<C-U>call <SID>Match_wrapper('',1,'o')<CR>
-onoremap <silent> <Plug>MatchItOperationBackward v:<C-U>call <SID>Match_wrapper('',0,'o')<CR>
+nnoremap <silent> <Plug>MatchitNormalForward     :<C-U>call <SID>Match_wrapper('',1,'n')<CR>
+nnoremap <silent> <Plug>MatchitNormalBackward    :<C-U>call <SID>Match_wrapper('',0,'n')<CR>
+vnoremap <silent> <Plug>MatchitVisualForward     :<C-U>call <SID>Match_wrapper('',1,'v')<CR>m'gv``
+vnoremap <silent> <Plug>MatchitVisualBackward    :<C-U>call <SID>Match_wrapper('',0,'v')<CR>m'gv``
+onoremap <silent> <Plug>MatchitOperationForward  v:<C-U>call <SID>Match_wrapper('',1,'o')<CR>
+onoremap <silent> <Plug>MatchitOperationBackward v:<C-U>call <SID>Match_wrapper('',0,'o')<CR>
 
-nmap <silent> %  <Plug>MatchItNormalForward
-nmap <silent> g% <Plug>MatchItNormalBackward
-vmap <silent> %  <Plug>MatchItVisualForward
-vmap <silent> g% <Plug>MatchItVisualBackward
-omap <silent> %  <Plug>MatchItOperationForward
-omap <silent> g% <Plug>MatchItOperationBackward
+nmap <silent> %  <Plug>MatchitNormalForward
+nmap <silent> g% <Plug>MatchitNormalBackward
+vmap <silent> %  <Plug>MatchitVisualForward
+vmap <silent> g% <Plug>MatchitVisualBackward
+omap <silent> %  <Plug>MatchitOperationForward
+omap <silent> g% <Plug>MatchitOperationBackward
 
 " Analogues of [{ and ]} using matching patterns:
-nnoremap <silent> <Plug>MatchItNormalMultiBackward :<C-U>call <SID>MultiMatch("bW", "n")<CR>
-nnoremap <silent> <Plug>MatchItNormalMultiForward  :<C-U>call <SID>MultiMatch("W",  "n")<CR>
+nnoremap <silent> <Plug>MatchitNormalMultiBackward :<C-U>call <SID>MultiMatch("bW", "n")<CR>
+nnoremap <silent> <Plug>MatchitNormalMultiForward  :<C-U>call <SID>MultiMatch("W",  "n")<CR>
 
-nmap <silent> [% <Plug>MatchItNormalMultiBackward
-nmap <silent> ]% <Plug>MatchItNormalMultiForward
-vmap <silent> [% <Esc><Plug>MatchItNormalMultiBackwardm'gv``
-vmap <silent> ]% <Esc><Plug>MatchItNormalMultiForwardm'gv``
+nmap <silent> [% <Plug>MatchitNormalMultiBackward
+nmap <silent> ]% <Plug>MatchitNormalMultiForward
+vmap <silent> [% <Esc><Plug>MatchitNormalMultiBackwardm'gv``
+vmap <silent> ]% <Esc><Plug>MatchitNormalMultiForwardm'gv``
 "
-" vnoremap <silent> <Plug>MatchItVisualMultiBackward :<C-U>call <SID>MultiMatch("bW", "v") <CR>m'gv``
-" vnoremap <silent> <Plug>MatchItVisualMultiForward  :<C-U>call <SID>MultiMatch("W",  "v") <CR>m'gv``
+" vnoremap <silent> <Plug>MatchitVisualMultiBackward :<C-U>call <SID>MultiMatch("bW", "v") <CR>m'gv``
+" vnoremap <silent> <Plug>MatchitVisualMultiForward  :<C-U>call <SID>MultiMatch("W",  "v") <CR>m'gv``
 "
-" vmap <silent> [% <Plug>MatchItVisualMultiBackward
-" vmap <silent> ]% <Plug>MatchItVisualMultiForward
+" vmap <silent> [% <Plug>MatchitVisualMultiBackward
+" vmap <silent> ]% <Plug>MatchitVisualMultiForward
 
-onoremap <silent> <Plug>MatchItOperationMultiBackward v:<C-U>call <SID>MultiMatch("bW", "o")<CR>
-onoremap <silent> <Plug>MatchItOperationMultiForward  v:<C-U>call <SID>MultiMatch("W",  "o")<CR>
+onoremap <silent> <Plug>MatchitOperationMultiBackward v:<C-U>call <SID>MultiMatch("bW", "o")<CR>
+onoremap <silent> <Plug>MatchitOperationMultiForward  v:<C-U>call <SID>MultiMatch("W",  "o")<CR>
 
-omap <silent> [% <Plug>MatchItOperationMultiBackward
-omap <silent> ]% <Plug>MatchItOperationMultiForward
+omap <silent> [% <Plug>MatchitOperationMultiBackward
+omap <silent> ]% <Plug>MatchitOperationMultiForward
 
 " text object:
 vmap a% <Esc>[%v]%
