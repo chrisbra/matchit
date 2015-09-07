@@ -65,26 +65,21 @@ omap <silent> g% <Plug>MatchitOperationBackward
 " Analogues of [{ and ]} using matching patterns:
 nnoremap <silent> <Plug>MatchitNormalMultiBackward :<C-U>call <SID>MultiMatch("bW", "n")<CR>
 nnoremap <silent> <Plug>MatchitNormalMultiForward  :<C-U>call <SID>MultiMatch("W",  "n")<CR>
-
-nmap <silent> [% <Plug>MatchitNormalMultiBackward
-nmap <silent> ]% <Plug>MatchitNormalMultiForward
-vmap <silent> [% <Esc><Plug>MatchitNormalMultiBackwardm'gv``
-vmap <silent> ]% <Esc><Plug>MatchitNormalMultiForwardm'gv``
-"
-" vnoremap <silent> <Plug>MatchitVisualMultiBackward :<C-U>call <SID>MultiMatch("bW", "v") <CR>m'gv``
-" vnoremap <silent> <Plug>MatchitVisualMultiForward  :<C-U>call <SID>MultiMatch("W",  "v") <CR>m'gv``
-"
-" vmap <silent> [% <Plug>MatchitVisualMultiBackward
-" vmap <silent> ]% <Plug>MatchitVisualMultiForward
-
+vnoremap <silent> <Plug>MatchitVisualMultiBackward :<C-U>call <SID>MultiMatch("bW", "n") <CR>m'gv``
+vnoremap <silent> <Plug>MatchitVisualMultiForward  :<C-U>call <SID>MultiMatch("W",  "n") <CR>m'gv``
 onoremap <silent> <Plug>MatchitOperationMultiBackward v:<C-U>call <SID>MultiMatch("bW", "o")<CR>
 onoremap <silent> <Plug>MatchitOperationMultiForward  v:<C-U>call <SID>MultiMatch("W",  "o")<CR>
 
+nmap <silent> [% <Plug>MatchitNormalMultiBackward
+nmap <silent> ]% <Plug>MatchitNormalMultiForward
+vmap <silent> [% <Plug>MatchitVisualMultiBackward
+vmap <silent> ]% <Plug>MatchitVisualMultiForward
 omap <silent> [% <Plug>MatchitOperationMultiBackward
 omap <silent> ]% <Plug>MatchitOperationMultiForward
 
 " text object:
-vmap a% <Esc>[%v]%
+vnoremap <silent> <Plug>MatchitVisualTextObject <Plug>MatchitVisualMultiBackward<Plug>MatchitVisualMultiForward
+vmap a% <Plug>MatchitVisualTextObject
 
 " Auto-complete mappings:  (not yet "ready for prime time")
 " TODO Read :help write-plugin for the "right" way to let the user
