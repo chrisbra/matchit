@@ -637,6 +637,8 @@ fun! s:MultiMatch(spflag, mode)
   endif
   let startline = line(".")
   let startcol = col(".")
+  " save v:count1 variable, might be reset from the restore_cursor command
+  let level = v:count1
 
   " First step:  if not already done, set the script variables
   "   s:do_BR   flag for whether there are backrefs
@@ -715,7 +717,6 @@ fun! s:MultiMatch(spflag, mode)
     endtry
   endif
   mark '
-  let level = v:count1
   while level
     if searchpair(openpat, '', closepat, a:spflag, skip) < 1
       call s:CleanUp(restore_options, a:mode, startline, startcol)
