@@ -1,9 +1,9 @@
 "  matchit.vim: (global plugin) Extended "%" matching
-"  Last Change: 2017 March 26
+"  Last Change: 2017 September 16th
 "  Maintainer:  Christian Brabandt
 "  Version:     1.14
-"  Repository: https://github.com/chrisbra/matchit
-"  Previous URL:		http://www.vim.org/script.php?script_id=39
+"  Repository:  https://github.com/chrisbra/matchit
+"  Previous URL:http://www.vim.org/script.php?script_id=39
 "  Previous Maintainer:  Benji Fisher PhD   <benji@member.AMS.org>
 
 " Documentation:
@@ -37,12 +37,10 @@
 " TODO:  Add a level of indirection, so that custom % scripts can use my
 "   work but extend it.
 
-" allow user to prevent loading
-" and prevent duplicate loading
-if exists("loaded_matchit") || &cp
+if exists("g:loaded_matchit") || &cp
   finish
 endif
-let loaded_matchit = 1
+let g:loaded_matchit = 1
 let s:last_mps = ""
 let s:last_words = ":"
 let s:patBR = ""
@@ -113,9 +111,9 @@ function! s:Match_wrapper(word, forward, mode) range
   end
 
   " First step:  if not already done, set the script variables
-  "   s:do_BR	flag for whether there are backrefs
-  "   s:pat	parsed version of b:match_words
-  "   s:all	regexp based on s:pat and the default groups
+  "   s:do_BR   flag for whether there are backrefs
+  "   s:pat     parsed version of b:match_words
+  "   s:all     regexp based on s:pat and the default groups
   "
   if !exists("b:match_words") || b:match_words == ""
     let match_words = ""
@@ -129,12 +127,8 @@ function! s:Match_wrapper(word, forward, mode) range
   if (match_words != s:last_words) || (&mps != s:last_mps)
       \ || exists("b:match_debug")
     let s:last_mps = &mps
-    " The next several lines were here before
-    " BF started messing with this script.
     " quote the special chars in 'matchpairs', replace [,:] with \| and then
     " append the builtin pairs (/*, */, #if, #ifdef, #else, #elif, #endif)
-    " let default = substitute(escape(&mps, '[$^.*~\\/?]'), '[,:]\+',
-    "  \ '\\|', 'g').'\|\/\*\|\*\/\|#if\>\|#ifdef\>\|#else\>\|#elif\>\|#endif\>'
     let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
       \ '\/\*:\*\/,#\s*if\%(def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
     " s:all = pattern with all the keywords
@@ -149,7 +143,6 @@ function! s:Match_wrapper(word, forward, mode) range
     endif
     let s:all = substitute(s:pat, s:notslash . '\zs[,:]\+', '\\|', 'g')
     let s:all = '\%(' . s:all . '\)'
-    " let s:all = '\%(' . substitute(s:all, '\\\ze[,:]', '', 'g') . '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
     endif
@@ -178,7 +171,7 @@ function! s:Match_wrapper(word, forward, mode) range
     let prefix = '^\%('
     let suffix = '\)$'
   " Now the case when "word" is not given
-  else	" Find the match that ends on or after the cursor and set curcol.
+  else  " Find the match that ends on or after the cursor and set curcol.
     let regexp = s:Wholematch(matchline, s:all, startcol-1)
     let curcol = match(matchline, regexp)
     " If there is no match, give up.
@@ -267,10 +260,6 @@ function! s:Match_wrapper(word, forward, mode) range
   let restore_cursor = "normal!" . line(".") . "Gzt" . restore_cursor
   execute restore_cursor
   call cursor(0, curcol + 1)
-  " normal! 0
-  " if curcol
-  "   execute "normal!" . curcol . "l"
-  " endif
   if skip =~ 'synID' && !(has("syntax") && exists("g:syntax_on"))
     let skip = "0"
   else
@@ -302,7 +291,7 @@ fun! s:CleanUp(options, mode, startline, startcol, ...)
     " (for example, d%).
     " This is only a problem if we end up moving in the forward direction.
   elseif (a:startline < line(".")) ||
-	\ (a:startline == line(".") && a:startcol < col("."))
+        \ (a:startline == line(".") && a:startcol < col("."))
     if a:0
       " Check whether the match is a single character.  If not, move to the
       " end of the match.
@@ -311,7 +300,7 @@ fun! s:CleanUp(options, mode, startline, startcol, ...)
       let regexp = s:Wholematch(matchline, a:1, currcol-1)
       let endcol = matchend(matchline, regexp)
       if endcol > currcol  " This is NOT off by one!
-	call cursor(0, endcol)
+        call cursor(0, endcol)
       endif
     endif " a:0
   endif " a:mode != "o" && etc.
@@ -319,11 +308,11 @@ fun! s:CleanUp(options, mode, startline, startcol, ...)
 endfun
 
 " Example (simplified HTML patterns):  if
-"   a:groupBR	= '<\(\k\+\)>:</\1>'
-"   a:prefix	= '^.\{3}\('
-"   a:group	= '<\(\k\+\)>:</\(\k\+\)>'
-"   a:suffix	= '\).\{2}$'
-"   a:matchline	=  "123<tag>12" or "123</tag>12"
+"   a:groupBR   = '<\(\k\+\)>:</\1>'
+"   a:prefix    = '^.\{3}\('
+"   a:group     = '<\(\k\+\)>:</\(\k\+\)>'
+"   a:suffix    = '\).\{2}$'
+"   a:matchline =  "123<tag>12" or "123</tag>12"
 " then extract "tag" from a:matchline and return "<tag>:</tag>" .
 fun! s:InsertRefs(groupBR, prefix, group, suffix, matchline)
   if a:matchline !~ a:prefix .
@@ -342,15 +331,13 @@ fun! s:InsertRefs(groupBR, prefix, group, suffix, matchline)
   if wordBR != ini
     let table = s:Resolve(ini, wordBR, "table")
   else
-    " let table = "----------"
     let table = ""
     let d = 0
     while d < 10
       if tailBR =~ s:notslash . '\\' . d
-	" let table[d] = d
-	let table = table . d
+        let table = table . d
       else
-	let table = table . "-"
+        let table = table . "-"
       endif
       let d = d + 1
     endwhile
@@ -359,13 +346,13 @@ fun! s:InsertRefs(groupBR, prefix, group, suffix, matchline)
   while d
     if table[d] != "-"
       let backref = substitute(a:matchline, a:prefix.word.a:suffix,
-	\ '\'.table[d], "")
-	" Are there any other characters that should be escaped?
+        \ '\'.table[d], "")
+        " Are there any other characters that should be escaped?
       let backref = escape(backref, '*,:')
       execute s:Ref(ini, d, "start", "len")
       let ini = strpart(ini, 0, start) . backref . strpart(ini, start+len)
       let tailBR = substitute(tailBR, s:notslash . '\zs\\' . d,
-	\ escape(backref, '\\&'), 'g')
+        \ escape(backref, '\\&'), 'g')
     endif
     let d = d-1
   endwhile
@@ -452,7 +439,7 @@ fun! s:Ref(string, d, ...)
       let cnt = cnt - 1
       let index = matchend(match, s:notslash . '\\(')
       if index == -1
-	return ""
+        return ""
       endif
       let match = strpart(match, index)
     endwhile
@@ -464,11 +451,10 @@ fun! s:Ref(string, d, ...)
     while cnt
       let index = matchend(match, s:notslash . '\\(\|\\)') - 1
       if index == -2
-	return ""
+        return ""
       endif
       " Increment if an open, decrement if a ')':
       let cnt = cnt + (match[index]=="(" ? 1 : -1)  " ')'
-      " let cnt = stridx('0(', match[index]) + cnt
       let match = strpart(match, index+1)
     endwhile
     let start = start - 2
@@ -534,18 +520,18 @@ fun! s:Resolve(source, target, output)
     while b <= s:Count(substitute(backref, '\\\\', '', 'g'), '\(', '1')
     \ && s < 10
       if table[s] == "-"
-	if w + b < 10
-	  " let table[s] = w + b
-	  let table = strpart(table, 0, s) . (w+b) . strpart(table, s+1)
-	endif
-	let b = b + 1
-	let s = s + 1
+        if w + b < 10
+          " let table[s] = w + b
+          let table = strpart(table, 0, s) . (w+b) . strpart(table, s+1)
+        endif
+        let b = b + 1
+        let s = s + 1
       else
-	execute s:Ref(backref, b, "start", "len")
-	let ref = strpart(backref, start, len)
-	let backref = strpart(backref, 0, start) . ":". table[s]
-	\ . strpart(backref, start+len)
-	let s = s + s:Count(substitute(ref, '\\\\', '', 'g'), '\(', '1')
+        execute s:Ref(backref, b, "start", "len")
+        let ref = strpart(backref, start, len)
+        let backref = strpart(backref, 0, start) . ":". table[s]
+        \ . strpart(backref, start+len)
+        let s = s + s:Count(substitute(ref, '\\\\', '', 'g'), '\(', '1')
       endif
     endwhile
     let word = strpart(word, 0, i-1) . backref . strpart(word, i+1)
@@ -610,25 +596,25 @@ if !exists(":MatchDebug")
 endif
 
 fun! s:Match_debug()
-  let b:match_debug = 1	" Save debugging information.
+  let b:match_debug = 1 " Save debugging information.
   " pat = all of b:match_words with backrefs parsed
-  amenu &Matchit.&pat	:echo b:match_pat<CR>
+  amenu &Matchit.&pat   :echo b:match_pat<CR>
   " match = bit of text that is recognized as a match
-  amenu &Matchit.&match	:echo b:match_match<CR>
+  amenu &Matchit.&match :echo b:match_match<CR>
   " curcol = cursor column of the start of the matching text
-  amenu &Matchit.&curcol	:echo b:match_col<CR>
+  amenu &Matchit.&curcol        :echo b:match_col<CR>
   " wholeBR = matching group, original version
-  amenu &Matchit.wh&oleBR	:echo b:match_wholeBR<CR>
+  amenu &Matchit.wh&oleBR       :echo b:match_wholeBR<CR>
   " iniBR = 'if' piece, original version
-  amenu &Matchit.ini&BR	:echo b:match_iniBR<CR>
+  amenu &Matchit.ini&BR :echo b:match_iniBR<CR>
   " ini = 'if' piece, with all backrefs resolved from match
-  amenu &Matchit.&ini	:echo b:match_ini<CR>
+  amenu &Matchit.&ini   :echo b:match_ini<CR>
   " tail = 'else\|endif' piece, with all backrefs resolved from match
-  amenu &Matchit.&tail	:echo b:match_tail<CR>
+  amenu &Matchit.&tail  :echo b:match_tail<CR>
   " fin = 'endif' piece, with all backrefs resolved from match
-  amenu &Matchit.&word	:echo b:match_word<CR>
+  amenu &Matchit.&word  :echo b:match_word<CR>
   " '\'.d in ini refers to the same thing as '\'.table[d] in word.
-  amenu &Matchit.t&able	:echo '0:' . b:match_table . ':9'<CR>
+  amenu &Matchit.t&able :echo '0:' . b:match_table . ':9'<CR>
 endfun
 
 " Jump to the nearest unmatched "(" or "if" or "<tag>" if a:spflag == "bW"
@@ -653,9 +639,9 @@ fun! s:MultiMatch(spflag, mode)
   let startcol = col(".")
 
   " First step:  if not already done, set the script variables
-  "   s:do_BR	flag for whether there are backrefs
-  "   s:pat	parsed version of b:match_words
-  "   s:all	regexp based on s:pat and the default groups
+  "   s:do_BR   flag for whether there are backrefs
+  "   s:pat     parsed version of b:match_words
+  "   s:all     regexp based on s:pat and the default groups
   " This part is copied and slightly modified from s:Match_wrapper().
   let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
     \ '\/\*:\*\/,#\s*if\%(def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
@@ -678,7 +664,7 @@ fun! s:MultiMatch(spflag, mode)
       let s:pat = s:ParseWords(match_words)
     endif
     let s:all = '\%(' . substitute(s:pat . (strlen(s:pat) ? "," : "") . default,
-	\ '[,:]\+', '\\|', 'g') . '\)'
+        \ '[,:]\+', '\\|', 'g') . '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
     endif
@@ -691,10 +677,10 @@ fun! s:MultiMatch(spflag, mode)
   " - into separate functions!
   let cdefault = (s:pat =~ '[^,]$' ? "," : "") . default
   let open =  substitute(s:pat . cdefault,
-	\ s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
+        \ s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
   let open =  '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
   let close = substitute(s:pat . cdefault,
-	\ s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
+        \ s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
   let close = substitute(close, '^.\{-}' . s:notslash . ':', '\\(', '') . '\)'
   if exists("b:match_skip")
     let skip = b:match_skip
@@ -704,9 +690,6 @@ fun! s:MultiMatch(spflag, mode)
     let skip = 's:comment\|string'
   endif
   let skip = s:ParseSkip(skip)
-  " let restore_cursor = line(".") . "G" . virtcol(".") . "|"
-  " normal! H
-  " let restore_cursor = "normal!" . line(".") . "Gzt" . restore_cursor
   let restore_cursor = virtcol(".") . "|"
   normal! g0
   let restore_cursor = line(".") . "G" .  virtcol(".") . "|zs" . restore_cursor
@@ -810,10 +793,10 @@ fun! s:ParseSkip(str)
   if skip[1] == ":"
     if skip[0] == "s"
       let skip = "synIDattr(synID(line('.'),col('.'),1),'name') =~? '" .
-	\ strpart(skip,2) . "'"
+        \ strpart(skip,2) . "'"
     elseif skip[0] == "S"
       let skip = "synIDattr(synID(line('.'),col('.'),1),'name') !~? '" .
-	\ strpart(skip,2) . "'"
+        \ strpart(skip,2) . "'"
     elseif skip[0] == "r"
       let skip = "strpart(getline('.'),0,col('.'))=~'" . strpart(skip,2). "'"
     elseif skip[0] == "R"
@@ -826,4 +809,4 @@ endfun
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
-" vim:sts=2:sw=2:
+" vim:sts=2:sw=2:et:
