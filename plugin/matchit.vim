@@ -673,11 +673,9 @@ fun! s:MultiMatch(spflag, mode)
   " - maybe even more functionality should be split off
   " - into separate functions!
   let cdefault = (s:pat =~ '[^,]$' ? "," : "") . default
-  let open =  substitute(s:pat . cdefault,
-        \ s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
+  let open =  substitute(s:pat . cdefault, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
+  let close = substitute(s:pat . cdefault, s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
   let open =  '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
-  let close = substitute(s:pat . cdefault,
-        \ s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
   let close = substitute(close, '^.\{-}' . s:notslash . ':', '\\(', '') . '\)'
   if exists("b:match_skip")
     let skip = b:match_skip
