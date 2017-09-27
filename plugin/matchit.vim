@@ -78,7 +78,7 @@ omap <silent> [% <Plug>MatchitOperationMultiBackward
 omap <silent> ]% <Plug>MatchitOperationMultiForward
 
 " text object:
-vnoremap <silent> <Plug>MatchitVisualTextObject <Plug>MatchitVisualMultiBackward<Plug>MatchitVisualMultiForward
+vmap <silent> <Plug>MatchitVisualTextObject <Plug>MatchitVisualMultiBackward<Plug>MatchitVisualMultiForward
 vmap a% <Plug>MatchitVisualTextObject
 
 " Auto-complete mappings:  (not yet "ready for prime time")
