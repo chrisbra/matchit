@@ -48,38 +48,38 @@ let s:patBR = ""
 let s:save_cpo = &cpo
 set cpo&vim
 
-nnoremap <silent> <Plug>MatchitNormalForward     :<C-U>call <SID>Match_wrapper('',1,'n')<CR>
-nnoremap <silent> <Plug>MatchitNormalBackward    :<C-U>call <SID>Match_wrapper('',0,'n')<CR>
-vnoremap <silent> <Plug>MatchitVisualForward     :<C-U>call <SID>Match_wrapper('',1,'v')<CR>m'gv``
-vnoremap <silent> <Plug>MatchitVisualBackward    :<C-U>call <SID>Match_wrapper('',0,'v')<CR>m'gv``
-onoremap <silent> <Plug>MatchitOperationForward  v:<C-U>call <SID>Match_wrapper('',1,'o')<CR>
-onoremap <silent> <Plug>MatchitOperationBackward v:<C-U>call <SID>Match_wrapper('',0,'o')<CR>
+nnoremap <silent> <Plug>(MatchitNormalForward)     :<C-U>call <SID>Match_wrapper('',1,'n')<CR>
+nnoremap <silent> <Plug>(MatchitNormalBackward)    :<C-U>call <SID>Match_wrapper('',0,'n')<CR>
+vnoremap <silent> <Plug>(MatchitVisualForward)     :<C-U>call <SID>Match_wrapper('',1,'v')<CR>m'gv``
+vnoremap <silent> <Plug>(MatchitVisualBackward)    :<C-U>call <SID>Match_wrapper('',0,'v')<CR>m'gv``
+onoremap <silent> <Plug>(MatchitOperationForward)  v:<C-U>call <SID>Match_wrapper('',1,'o')<CR>
+onoremap <silent> <Plug>(MatchitOperationBackward) v:<C-U>call <SID>Match_wrapper('',0,'o')<CR>
 
-nmap <silent> %  <Plug>MatchitNormalForward
-nmap <silent> g% <Plug>MatchitNormalBackward
-vmap <silent> %  <Plug>MatchitVisualForward
-vmap <silent> g% <Plug>MatchitVisualBackward
-omap <silent> %  <Plug>MatchitOperationForward
-omap <silent> g% <Plug>MatchitOperationBackward
+nmap <silent> %  <Plug>(MatchitNormalForward)
+nmap <silent> g% <Plug>(MatchitNormalBackward)
+vmap <silent> %  <Plug>(MatchitVisualForward)
+vmap <silent> g% <Plug>(MatchitVisualBackward)
+omap <silent> %  <Plug>(MatchitOperationForward)
+omap <silent> g% <Plug>(MatchitOperationBackward)
 
 " Analogues of [{ and ]} using matching patterns:
-nnoremap <silent> <Plug>MatchitNormalMultiBackward :<C-U>call <SID>MultiMatch("bW", "n")<CR>
-nnoremap <silent> <Plug>MatchitNormalMultiForward  :<C-U>call <SID>MultiMatch("W",  "n")<CR>
-vnoremap <silent> <Plug>MatchitVisualMultiBackward :<C-U>call <SID>MultiMatch("bW", "n") <CR>m'gv``
-vnoremap <silent> <Plug>MatchitVisualMultiForward  :<C-U>call <SID>MultiMatch("W",  "n") <CR>m'gv``
-onoremap <silent> <Plug>MatchitOperationMultiBackward v:<C-U>call <SID>MultiMatch("bW", "o")<CR>
-onoremap <silent> <Plug>MatchitOperationMultiForward  v:<C-U>call <SID>MultiMatch("W",  "o")<CR>
+nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :<C-U>call <SID>MultiMatch("bW", "n")<CR>
+nnoremap <silent> <Plug>(MatchitNormalMultiForward)  :<C-U>call <SID>MultiMatch("W",  "n")<CR>
+vnoremap <silent> <Plug>(MatchitVisualMultiBackward) :<C-U>call <SID>MultiMatch("bW", "n")<CR>m'gv``
+vnoremap <silent> <Plug>(MatchitVisualMultiForward)  :<C-U>call <SID>MultiMatch("W",  "n")<CR>m'gv``
+onoremap <silent> <Plug>(MatchitOperationMultiBackward) v:<C-U>call <SID>MultiMatch("bW", "o")<CR>
+onoremap <silent> <Plug>(MatchitOperationMultiForward)  v:<C-U>call <SID>MultiMatch("W",  "o")<CR>
 
-nmap <silent> [% <Plug>MatchitNormalMultiBackward
-nmap <silent> ]% <Plug>MatchitNormalMultiForward
-vmap <silent> [% <Plug>MatchitVisualMultiBackward
-vmap <silent> ]% <Plug>MatchitVisualMultiForward
-omap <silent> [% <Plug>MatchitOperationMultiBackward
-omap <silent> ]% <Plug>MatchitOperationMultiForward
+nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
+nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
+vmap <silent> [% <Plug>(MatchitVisualMultiBackward)
+vmap <silent> ]% <Plug>(MatchitVisualMultiForward)
+omap <silent> [% <Plug>(MatchitOperationMultiBackward)
+omap <silent> ]% <Plug>(MatchitOperationMultiForward)
 
 " text object:
-vmap <silent> <Plug>MatchitVisualTextObject <Plug>MatchitVisualMultiBackwardo<Plug>MatchitVisualMultiForward
-vmap a% <Plug>MatchitVisualTextObject
+vmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
+vmap a% <Plug>(MatchitVisualTextObject)
 
 " Auto-complete mappings:  (not yet "ready for prime time")
 " TODO Read :help write-plugin for the "right" way to let the user
