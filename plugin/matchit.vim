@@ -636,9 +636,6 @@ endfun
 " TODO This relies on the same patterns as % matching.  It might be a good
 " idea to give it its own matching patterns.
 fun! s:MultiMatch(spflag, mode)
-  if !exists("b:match_words") || b:match_words == ""
-    return {}
-  end
   let restore_options = ""
   if exists("b:match_ignorecase") && b:match_ignorecase != &ic
     let restore_options .= (&ic ? " " : " no") . "ignorecase"
@@ -654,19 +651,21 @@ fun! s:MultiMatch(spflag, mode)
   "   s:pat     parsed version of b:match_words
   "   s:all     regexp based on s:pat and the default groups
   " This part is copied and slightly modified from s:Match_wrapper().
-  let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
-    \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
-  " Allow b:match_words = "GetVimMatchWords()" .
-  if b:match_words =~ ":"
+  if !exists("b:match_words") || b:match_words == ""
+    let match_words = ""
+    " Allow b:match_words = "GetVimMatchWords()" .
+  elseif b:match_words =~ ":"
     let match_words = b:match_words
   else
     execute "let match_words =" b:match_words
   endif
   if (match_words != s:last_words) || (&mps != s:last_mps) ||
     \ exists("b:match_debug")
-    let s:last_words = match_words
+    let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
+      \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
     let s:last_mps = &mps
     let match_words = match_words . (strlen(match_words) ? "," : "") . default
+    let s:last_words = match_words
     if match_words !~ s:notslash . '\\\d'
       let s:do_BR = 0
       let s:pat = match_words
@@ -678,6 +677,10 @@ fun! s:MultiMatch(spflag, mode)
     if exists("b:match_debug")
       let b:match_pat = s:pat
     endif
+    " Reconstruct the version with unresolved backrefs.
+    let s:patBR = substitute(match_words.',',
+      \ s:notslash.'\zs[,:]*,[,:]*', ',', 'g')
+    let s:patBR = substitute(s:patBR, s:notslash.'\zs:\{2,}', ':', 'g')
   endif
 
   " Second step:  figure out the patterns for searchpair()
