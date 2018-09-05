@@ -96,7 +96,7 @@ vmap a% <Plug>(MatchitVisualTextObject)
 "   execute "inoremap " . g:match_gthhoh . ' <C-O>:call <SID>Gthhoh()<CR>'
 " endif " gthhoh = "Get the heck out of here!"
 
-let s:notslash = '\\\@<!\%(\\\\\)*'
+let s:notslash = '\\\@1<!\%(\\\\\)*'
 
 function! s:Match_wrapper(word, forward, mode) range
   " In s:CleanUp(), :execute "set" restore_options .
@@ -719,11 +719,11 @@ fun! s:MultiMatch(spflag, mode)
 
   " Third step: call searchpair().
   " Replace '\('--but not '\\('--with '\%(' and ',' with '\|'.
-  let openpat = substitute(open, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let openpat = substitute(open, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let openpat = substitute(openpat, ',', '\\|', 'g')
-  let closepat = substitute(close, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let closepat = substitute(close, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let closepat = substitute(closepat, ',', '\\|', 'g')
-  let middlepat = substitute(middle, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let middlepat = substitute(middle, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let middlepat = substitute(middlepat, ',', '\\|', 'g')
 
   if skip =~ 'synID' && !(has("syntax") && exists("g:syntax_on"))
