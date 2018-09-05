@@ -674,8 +674,7 @@ fun! s:MultiMatch(spflag, mode)
       let s:do_BR = 1
       let s:pat = s:ParseWords(match_words)
     endif
-    let s:all = '\%(' . substitute(s:pat . (strlen(s:pat) ? "," : "") . default,
-        \ '[,:]\+', '\\|', 'g') . '\)'
+    let s:all = '\%(' . substitute(s:pat, '[,:]\+', '\\|', 'g') . '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
     endif
@@ -686,9 +685,8 @@ fun! s:MultiMatch(spflag, mode)
   " - TODO:  A lot of this is copied from s:Match_wrapper().
   " - maybe even more functionality should be split off
   " - into separate functions!
-  let cdefault = (s:pat =~ '[^,]$' ? "," : "") . default
-  let open =  substitute(s:pat . cdefault, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
-  let close = substitute(s:pat . cdefault, s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
+  let open =  substitute(s:pat, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
+  let close = substitute(s:pat, s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
   let open =  '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
   let close = substitute(close, '^.\{-}' . s:notslash . ':', '\\(', '') . '\)'
   if exists("b:match_skip")
