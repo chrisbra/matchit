@@ -636,9 +636,6 @@ endfun
 " TODO This relies on the same patterns as % matching.  It might be a good
 " idea to give it its own matching patterns.
 fun! s:MultiMatch(spflag, mode)
-  if !exists("b:match_words") || b:match_words == ""
-    return {}
-  end
   let restore_options = ""
   if exists("b:match_ignorecase") && b:match_ignorecase != &ic
     let restore_options .= (&ic ? " " : " no") . "ignorecase"
@@ -654,19 +651,21 @@ fun! s:MultiMatch(spflag, mode)
   "   s:pat     parsed version of b:match_words
   "   s:all     regexp based on s:pat and the default groups
   " This part is copied and slightly modified from s:Match_wrapper().
-  let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
-    \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
-  " Allow b:match_words = "GetVimMatchWords()" .
-  if b:match_words =~ ":"
+  if !exists("b:match_words") || b:match_words == ""
+    let match_words = ""
+    " Allow b:match_words = "GetVimMatchWords()" .
+  elseif b:match_words =~ ":"
     let match_words = b:match_words
   else
     execute "let match_words =" b:match_words
   endif
   if (match_words != s:last_words) || (&mps != s:last_mps) ||
     \ exists("b:match_debug")
-    let s:last_words = match_words
+    let default = escape(&mps, '[$^.*~\\/?]') . (strlen(&mps) ? "," : "") .
+      \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
     let s:last_mps = &mps
     let match_words = match_words . (strlen(match_words) ? "," : "") . default
+    let s:last_words = match_words
     if match_words !~ s:notslash . '\\\d'
       let s:do_BR = 0
       let s:pat = match_words
@@ -674,11 +673,14 @@ fun! s:MultiMatch(spflag, mode)
       let s:do_BR = 1
       let s:pat = s:ParseWords(match_words)
     endif
-    let s:all = '\%(' . substitute(s:pat . (strlen(s:pat) ? "," : "") . default,
-        \ '[,:]\+', '\\|', 'g') . '\)'
+    let s:all = '\%(' . substitute(s:pat, '[,:]\+', '\\|', 'g') . '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
     endif
+    " Reconstruct the version with unresolved backrefs.
+    let s:patBR = substitute(match_words.',',
+      \ s:notslash.'\zs[,:]*,[,:]*', ',', 'g')
+    let s:patBR = substitute(s:patBR, s:notslash.'\zs:\{2,}', ':', 'g')
   endif
 
   " Second step:  figure out the patterns for searchpair()
@@ -686,11 +688,22 @@ fun! s:MultiMatch(spflag, mode)
   " - TODO:  A lot of this is copied from s:Match_wrapper().
   " - maybe even more functionality should be split off
   " - into separate functions!
-  let cdefault = (s:pat =~ '[^,]$' ? "," : "") . default
-  let open =  substitute(s:pat . cdefault, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
-  let close = substitute(s:pat . cdefault, s:notslash . '\zs,.\{-}' . s:notslash . ':', '\\),\\(', 'g')
-  let open =  '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
-  let close = substitute(close, '^.\{-}' . s:notslash . ':', '\\(', '') . '\)'
+  let open = substitute(s:pat, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
+  let open = '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
+  let midclolist = split(',' . s:pat, s:notslash . '\zs,.\{-}' . s:notslash . ':')
+  call map(midclolist, {-> split(v:val, s:notslash . ':')})
+  let closelist = []
+  let middlelist = []
+  call map(midclolist, {i,v -> [extend(closelist, v[-1 : -1]),
+        \ extend(middlelist, v[0 : -2])]})
+  let middle = join(middlelist, '\),\(')
+  if middle !=# ''
+    let middle = '\(' . middle . '\)'
+  endif
+  let close = join(closelist, '\),\(')
+  if close !=# ''
+    let close = '\(' . close . '\)'
+  endif
   if exists("b:match_skip")
     let skip = b:match_skip
   elseif exists("b:match_comment") " backwards compatibility and testing!
@@ -703,10 +716,12 @@ fun! s:MultiMatch(spflag, mode)
 
   " Third step: call searchpair().
   " Replace '\('--but not '\\('--with '\%(' and ',' with '\|'.
-  let openpat =  substitute(open, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let openpat = substitute(open, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
   let openpat = substitute(openpat, ',', '\\|', 'g')
   let closepat = substitute(close, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
   let closepat = substitute(closepat, ',', '\\|', 'g')
+  let middlepat = substitute(middle, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let middlepat = substitute(middlepat, ',', '\\|', 'g')
 
   if skip =~ 'synID' && !(has("syntax") && exists("g:syntax_on"))
     let skip = '0'
@@ -720,7 +735,7 @@ fun! s:MultiMatch(spflag, mode)
   endif
   mark '
   while level
-    if searchpair(openpat, '', closepat, a:spflag, skip) < 1
+    if searchpair(openpat, middlepat, closepat, a:spflag, skip) < 1
       call s:CleanUp(restore_options, a:mode, startline, startcol)
       return {}
     endif
