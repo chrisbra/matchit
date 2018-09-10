@@ -629,10 +629,10 @@ endfun
 " Jump to the nearest unmatched "(" or "if" or "<tag>" if a:spflag == "bW"
 " or the nearest unmatched "</tag>" or "endif" or ")" if a:spflag == "W".
 " Return a "mark" for the original position, so that
-"   let m = MultiMatch("bW", "n") ... execute m
+"   let m = MultiMatch("bW", "n") ... call winrestview(m)
 " will return to the original position.  If there is a problem, do not
-" move the cursor and return "", unless a count is given, in which case
-" go up or down as many levels as possible and again return "".
+" move the cursor and return {}, unless a count is given, in which case
+" go up or down as many levels as possible and again return {}.
 " TODO This relies on the same patterns as % matching.  It might be a good
 " idea to give it its own matching patterns.
 fun! s:MultiMatch(spflag, mode)
