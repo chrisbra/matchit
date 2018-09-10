@@ -401,4 +401,4 @@ try to implement this in a future version.  (This is not so easy to arrange as
 you might think!)
 
 ==============================================================================
-vim:tw=78:fo=tcq2:
+vim:tw=78:fo=tcq2:ft=help:
