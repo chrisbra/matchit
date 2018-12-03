@@ -156,6 +156,9 @@ function! s:Match_wrapper(word, forward, mode) range
       let s:pat = s:ParseWords(match_words)
     endif
     let s:all = substitute(s:pat, s:notslash . '\zs[,:]\+', '\\|', 'g')
+    " Just in case there are too many '\(...)' groups inside the pattern, make
+    " sure to use \%(...) groups, so that error E872 can be avoided
+    let s:all = substitute(s:all, '\\(', '\\%(', 'g')
     let s:all = '\%(' . s:all . '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
