@@ -57,8 +57,8 @@ onoremap <silent> <Plug>(MatchitOperationBackward) v:<C-U>call <SID>Match_wrappe
 
 nmap <silent> %  <Plug>(MatchitNormalForward)
 nmap <silent> g% <Plug>(MatchitNormalBackward)
-vmap <silent> %  <Plug>(MatchitVisualForward)
-vmap <silent> g% <Plug>(MatchitVisualBackward)
+xmap <silent> %  <Plug>(MatchitVisualForward)
+xmap <silent> g% <Plug>(MatchitVisualBackward)
 omap <silent> %  <Plug>(MatchitOperationForward)
 omap <silent> g% <Plug>(MatchitOperationBackward)
 
@@ -72,14 +72,14 @@ onoremap <silent> <Plug>(MatchitOperationMultiForward)  v:<C-U>call <SID>MultiMa
 
 nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
 nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
-vmap <silent> [% <Plug>(MatchitVisualMultiBackward)
-vmap <silent> ]% <Plug>(MatchitVisualMultiForward)
+xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
+xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
 omap <silent> [% <Plug>(MatchitOperationMultiBackward)
 omap <silent> ]% <Plug>(MatchitOperationMultiForward)
 
 " text object:
 vmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
-vmap a% <Plug>(MatchitVisualTextObject)
+xmap a% <Plug>(MatchitVisualTextObject)
 
 " Auto-complete mappings:  (not yet "ready for prime time")
 " TODO Read :help write-plugin for the "right" way to let the user
