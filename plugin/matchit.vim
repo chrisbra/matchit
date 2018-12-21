@@ -698,9 +698,9 @@ fun! s:MultiMatch(spflag, mode)
   let middlelist = []
   call map(midclolist, {i,v -> [extend(closelist, v[-1 : -1]),
         \ extend(middlelist, v[0 : -2])]})
-  call map(openlist,   {i,v -> v =~# s:notslash . '\\|' ? '\(' . v . '\)' : v})
-  call map(middlelist, {i,v -> v =~# s:notslash . '\\|' ? '\(' . v . '\)' : v})
-  call map(closelist,  {i,v -> v =~# s:notslash . '\\|' ? '\(' . v . '\)' : v})
+  call map(openlist,   {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
+  call map(middlelist, {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
+  call map(closelist,  {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
   let open   = join(openlist, ',')
   let middle = join(middlelist, ',')
   let close  = join(closelist, ',')
