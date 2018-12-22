@@ -96,7 +96,7 @@ xmap a% <Plug>(MatchitVisualTextObject)
 "   execute "inoremap " . g:match_gthhoh . ' <C-O>:call <SID>Gthhoh()<CR>'
 " endif " gthhoh = "Get the heck out of here!"
 
-let s:notslash = '\\\@<!\%(\\\\\)*'
+let s:notslash = '\\\@1<!\%(\\\\\)*'
 
 function! s:Match_wrapper(word, forward, mode) range
   " In s:CleanUp(), :execute "set" restore_options .
@@ -691,22 +691,19 @@ fun! s:MultiMatch(spflag, mode)
   " - TODO:  A lot of this is copied from s:Match_wrapper().
   " - maybe even more functionality should be split off
   " - into separate functions!
-  let open = substitute(s:pat, s:notslash . '\zs:.\{-}' . s:notslash . ',', '\\),\\(', 'g')
-  let open = '\(' . substitute(open, s:notslash . '\zs:.*$', '\\)', '')
+  let openlist = split(s:pat . ',', s:notslash . '\zs:.\{-}' . s:notslash . ',')
   let midclolist = split(',' . s:pat, s:notslash . '\zs,.\{-}' . s:notslash . ':')
   call map(midclolist, {-> split(v:val, s:notslash . ':')})
   let closelist = []
   let middlelist = []
   call map(midclolist, {i,v -> [extend(closelist, v[-1 : -1]),
         \ extend(middlelist, v[0 : -2])]})
-  let middle = join(middlelist, '\),\(')
-  if middle !=# ''
-    let middle = '\(' . middle . '\)'
-  endif
-  let close = join(closelist, '\),\(')
-  if close !=# ''
-    let close = '\(' . close . '\)'
-  endif
+  call map(openlist,   {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
+  call map(middlelist, {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
+  call map(closelist,  {i,v -> v =~# s:notslash . '\\|' ? '\%(' . v . '\)' : v})
+  let open   = join(openlist, ',')
+  let middle = join(middlelist, ',')
+  let close  = join(closelist, ',')
   if exists("b:match_skip")
     let skip = b:match_skip
   elseif exists("b:match_comment") " backwards compatibility and testing!
@@ -719,11 +716,11 @@ fun! s:MultiMatch(spflag, mode)
 
   " Third step: call searchpair().
   " Replace '\('--but not '\\('--with '\%(' and ',' with '\|'.
-  let openpat = substitute(open, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let openpat = substitute(open, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let openpat = substitute(openpat, ',', '\\|', 'g')
-  let closepat = substitute(close, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let closepat = substitute(close, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let closepat = substitute(closepat, ',', '\\|', 'g')
-  let middlepat = substitute(middle, '\(\\\@<!\(\\\\\)*\)\@<=\\(', '\\%(', 'g')
+  let middlepat = substitute(middle, '\%(' . s:notslash . '\)\@<=\\(', '\\%(', 'g')
   let middlepat = substitute(middlepat, ',', '\\|', 'g')
 
   if skip =~ 'synID' && !(has("syntax") && exists("g:syntax_on"))
