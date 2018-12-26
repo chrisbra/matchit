@@ -1,5 +1,5 @@
 "  matchit.vim: (global plugin) Extended "%" matching
-"  Last Change: 2017 September 16th
+"  Last Change: 2018 December 22nd
 "  Maintainer:  Christian Brabandt
 "  Version:     1.14
 "  Repository:  https://github.com/chrisbra/matchit
