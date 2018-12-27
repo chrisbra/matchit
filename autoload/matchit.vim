@@ -44,12 +44,11 @@ function matchit#Match_wrapper(word, forward, mode) range
     exe "norm! v"
   endif
   " In s:CleanUp(), we may need to check whether the cursor moved forward.
-  let startline = line(".")
-  let startcol = col(".")
+  let startpos = [line("."), col(".")]
   " Use default behavior if called with a count.
   if v:count
     exe "normal! " . v:count . "%"
-    return s:CleanUp(restore_options, a:mode, startline, startcol)
+    return s:CleanUp(restore_options, a:mode, startpos)
   end
 
   " First step:  if not already done, set the script variables
@@ -105,12 +104,12 @@ function matchit#Match_wrapper(word, forward, mode) range
   "     suffix    = regexp for end of match to end of line
   " Require match to end on or after the cursor and prefer it to
   " start on or before the cursor.
-  let matchline = getline(startline)
+  let matchline = getline(startpos[0])
   if a:word != ''
     " word given
     if a:word !~ s:all
       echohl WarningMsg|echo 'Missing rule for word:"'.a:word.'"'|echohl NONE
-      return s:CleanUp(restore_options, a:mode, startline, startcol)
+      return s:CleanUp(restore_options, a:mode, startpos)
     endif
     let matchline = a:word
     let curcol = 0
@@ -118,11 +117,11 @@ function matchit#Match_wrapper(word, forward, mode) range
     let suffix = '\)$'
   " Now the case when "word" is not given
   else  " Find the match that ends on or after the cursor and set curcol.
-    let regexp = s:Wholematch(matchline, s:all, startcol-1)
+    let regexp = s:Wholematch(matchline, s:all, startpos[1]-1)
     let curcol = match(matchline, regexp)
     " If there is no match, give up.
     if curcol == -1
-      return s:CleanUp(restore_options, a:mode, startline, startcol)
+      return s:CleanUp(restore_options, a:mode, startpos)
     endif
     let endcol = matchend(matchline, regexp)
     let suf = strlen(matchline) - endcol
@@ -214,12 +213,12 @@ function matchit#Match_wrapper(word, forward, mode) range
   if sp_return > 0
     execute final_position
   endif
-  return s:CleanUp(restore_options, a:mode, startline, startcol, mid.'\|'.fin)
+  return s:CleanUp(restore_options, a:mode, startpos, mid.'\|'.fin)
 endfun
 
 " Restore options and do some special handling for Operator-pending mode.
 " The optional argument is the tail of the matching group.
-fun! s:CleanUp(options, mode, startline, startcol, ...)
+fun! s:CleanUp(options, mode, startpos, ...)
   if strlen(a:options)
     execute "set" a:options
   endif
@@ -231,8 +230,8 @@ fun! s:CleanUp(options, mode, startline, startcol, ...)
     " In Operator-pending mode, we want to include the whole match
     " (for example, d%).
     " This is only a problem if we end up moving in the forward direction.
-  elseif (a:startline < line(".")) ||
-        \ (a:startline == line(".") && a:startcol < col("."))
+  elseif (a:startpos[0] < line(".")) ||
+        \ (a:startpos[0] == line(".") && a:startpos[1] < col("."))
     if a:0
       " Check whether the match is a single character.  If not, move to the
       " end of the match.
@@ -573,8 +572,7 @@ fun! matchit#MultiMatch(spflag, mode)
     let restore_options .= (&ic ? " " : " no") . "ignorecase"
     let &ignorecase = b:match_ignorecase
   endif
-  let startline = line(".")
-  let startcol = col(".")
+  let startpos = [line("."), col(".")]
   " save v:count1 variable, might be reset from the restore_cursor command
   let level = v:count1
 
@@ -665,14 +663,14 @@ fun! matchit#MultiMatch(spflag, mode)
   mark '
   while level
     if searchpair(openpat, middlepat, closepat, a:spflag, skip) < 1
-      call s:CleanUp(restore_options, a:mode, startline, startcol)
+      call s:CleanUp(restore_options, a:mode, startpos)
       return {}
     endif
     let level = level - 1
   endwhile
 
   " Restore options and return a string to restore the original position.
-  call s:CleanUp(restore_options, a:mode, startline, startcol)
+  call s:CleanUp(restore_options, a:mode, startpos)
   return view
 endfun
 
