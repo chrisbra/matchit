@@ -28,7 +28,7 @@ let s:notslash = '\\\@1<!\%(\\\\\)*'
 function matchit#Match_wrapper(word, forward, mode) range
   " In s:CleanUp(), :execute "set" restore_options .
   let restore_options = ""
-  if exists("b:match_ignorecase") && b:match_ignorecase != &ic
+  if get(b:, 'match_ignorecase', &ic) != &ic
     let restore_options .= (&ic ? " " : " no") . "ignorecase"
     let &ignorecase = b:match_ignorecase
   endif
@@ -55,13 +55,12 @@ function matchit#Match_wrapper(word, forward, mode) range
   "   s:do_BR   flag for whether there are backrefs
   "   s:pat     parsed version of b:match_words
   "   s:all     regexp based on s:pat and the default groups
-  "
   if !exists("b:match_words") || b:match_words == ""
     let match_words = ""
-    " Allow b:match_words = "GetVimMatchWords()" .
   elseif b:match_words =~ ":"
     let match_words = b:match_words
   else
+    " Allow b:match_words = "GetVimMatchWords()" .
     execute "let match_words =" b:match_words
   endif
 " Thanks to Preben "Peppe" Guldberg and Bram Moolenaar for this suggestion!
