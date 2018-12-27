@@ -79,6 +79,13 @@ omap <silent> ]% <Plug>(MatchitOperationMultiForward)
 vmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
 xmap a% <Plug>(MatchitVisualTextObject)
 
+" Call this function to turn on debugging information.  Every time the main
+" script is run, buffer variables will be saved.  These can be used directly
+" or viewed using the menu items below.
+if !exists(":MatchDebug")
+  command! -nargs=0 MatchDebug call matchit#Match_debug()
+endif
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
 

@@ -528,14 +528,7 @@ fun! s:Choose(patterns, string, comma, branch, prefix, suffix, ...)
   return current
 endfun
 
-" Call this function to turn on debugging information.  Every time the main
-" script is run, buffer variables will be saved.  These can be used directly
-" or viewed using the menu items below.
-if !exists(":MatchDebug")
-  command! -nargs=0 MatchDebug call s:Match_debug()
-endif
-
-fun! s:Match_debug()
+fun! matchit#Match_debug()
   let b:match_debug = 1 " Save debugging information.
   " pat = all of b:match_words with backrefs parsed
   amenu &Matchit.&pat   :echo b:match_pat<CR>
