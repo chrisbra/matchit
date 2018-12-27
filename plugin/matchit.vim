@@ -41,9 +41,6 @@ if exists("g:loaded_matchit") || &cp
   finish
 endif
 let g:loaded_matchit = 1
-let s:last_mps = ""
-let s:last_words = ":"
-let s:patBR = ""
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -67,6 +64,7 @@ nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :<C-U>call matchit#MultiMat
 nnoremap <silent> <Plug>(MatchitNormalMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>
 vnoremap <silent> <Plug>(MatchitVisualMultiBackward) :<C-U>call matchit#MultiMatch("bW", "n")<CR>m'gv``
 vnoremap <silent> <Plug>(MatchitVisualMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>m'gv``
+" TODO: remove the charwise motion `v`
 onoremap <silent> <Plug>(MatchitOperationMultiBackward) v:<C-U>call matchit#MultiMatch("bW", "o")<CR>
 onoremap <silent> <Plug>(MatchitOperationMultiForward)  v:<C-U>call matchit#MultiMatch("W",  "o")<CR>
 
