@@ -52,8 +52,8 @@ nnoremap <silent> <Plug>(MatchitNormalForward)     :<C-U>call matchit#Match_wrap
 nnoremap <silent> <Plug>(MatchitNormalBackward)    :<C-U>call matchit#Match_wrapper('',0,'n')<CR>
 vnoremap <silent> <Plug>(MatchitVisualForward)     :<C-U>call matchit#Match_wrapper('',1,'v')<CR>m'gv``
 vnoremap <silent> <Plug>(MatchitVisualBackward)    :<C-U>call matchit#Match_wrapper('',0,'v')<CR>m'gv``
-onoremap <silent> <Plug>(MatchitOperationForward)  v:<C-U>call matchit#Match_wrapper('',1,'o')<CR>
-onoremap <silent> <Plug>(MatchitOperationBackward) v:<C-U>call matchit#Match_wrapper('',0,'o')<CR>
+onoremap <silent> <Plug>(MatchitOperationForward)  :<C-U>call matchit#Match_wrapper('',1,'o')<CR>
+onoremap <silent> <Plug>(MatchitOperationBackward) :<C-U>call matchit#Match_wrapper('',0,'o')<CR>
 
 nmap <silent> %  <Plug>(MatchitNormalForward)
 nmap <silent> g% <Plug>(MatchitNormalBackward)

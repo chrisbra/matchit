@@ -40,6 +40,8 @@ function matchit#Match_wrapper(word, forward, mode) range
   " is at the correct end of the Visual range:
   if a:mode == "v"
     execute "normal! gv\<Esc>"
+  elseif a:mode == "o" && mode(1) !~# '[vV]'
+    exe "norm! v"
   endif
   " In s:CleanUp(), we may need to check whether the cursor moved forward.
   let startline = line(".")
