@@ -1,5 +1,5 @@
 "  matchit.vim: (global plugin) Extended "%" matching
-"  Last Change: 2018 December 22nd
+"  Last Change: 2019 Jan 08
 "  Maintainer:  Christian Brabandt
 "  Version:     1.14
 "  Repository:  https://github.com/chrisbra/matchit
@@ -37,6 +37,7 @@
 " TODO:  Add a level of indirection, so that custom % scripts can use my
 "   work but extend it.
 
+" Allow user to prevent loading and prevent duplicate loading.
 if exists("g:loaded_matchit") || &cp
   finish
 endif
@@ -60,12 +61,12 @@ omap <silent> %  <Plug>(MatchitOperationForward)
 omap <silent> g% <Plug>(MatchitOperationBackward)
 
 " Analogues of [{ and ]} using matching patterns:
-nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :<C-U>call matchit#MultiMatch("bW", "n")<CR>
-nnoremap <silent> <Plug>(MatchitNormalMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>
-vnoremap <silent> <Plug>(MatchitVisualMultiBackward) :<C-U>call matchit#MultiMatch("bW", "n")<CR>m'gv``
-vnoremap <silent> <Plug>(MatchitVisualMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>m'gv``
-onoremap <silent> <Plug>(MatchitOperationMultiBackward) <C-U>call matchit#MultiMatch("bW", "o")<CR>
-onoremap <silent> <Plug>(MatchitOperationMultiForward)  <C-U>call matchit#MultiMatch("W",  "o")<CR>
+nnoremap <silent> <Plug>(MatchitNormalMultiBackward)    :<C-U>call matchit#MultiMatch("bW", "n")<CR>
+nnoremap <silent> <Plug>(MatchitNormalMultiForward)     :<C-U>call matchit#MultiMatch("W",  "n")<CR>
+vnoremap <silent> <Plug>(MatchitVisualMultiBackward)    :<C-U>call matchit#MultiMatch("bW", "n")<CR>m'gv``
+vnoremap <silent> <Plug>(MatchitVisualMultiForward)     :<C-U>call matchit#MultiMatch("W",  "n")<CR>m'gv``
+onoremap <silent> <Plug>(MatchitOperationMultiBackward) :<C-U>call matchit#MultiMatch("bW", "o")<CR>
+onoremap <silent> <Plug>(MatchitOperationMultiForward)  :<C-U>call matchit#MultiMatch("W",  "o")<CR>
 
 nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
 nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
