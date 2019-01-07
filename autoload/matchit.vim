@@ -25,7 +25,7 @@ set cpo&vim
 
 let s:notslash = '\\\@1<!\%(\\\\\)*'
 
-function matchit#Match_wrapper(word, forward, mode) range
+function s:RestoreOptions()
   " In s:CleanUp(), :execute "set" restore_options .
   let restore_options = ""
   if get(b:, 'match_ignorecase', &ic) != &ic
@@ -36,6 +36,11 @@ function matchit#Match_wrapper(word, forward, mode) range
     let restore_options = " ve=" . &ve . restore_options
     set ve=
   endif
+  return restore_options
+endfunction
+
+function matchit#Match_wrapper(word, forward, mode) range
+  let restore_options = s:RestoreOptions()
   " If this function was called from Visual mode, make sure that the cursor
   " is at the correct end of the Visual range:
   if a:mode == "v"
@@ -559,11 +564,7 @@ endfun
 " TODO This relies on the same patterns as % matching.  It might be a good
 " idea to give it its own matching patterns.
 fun! matchit#MultiMatch(spflag, mode)
-  let restore_options = ""
-  if exists("b:match_ignorecase") && b:match_ignorecase != &ic
-    let restore_options .= (&ic ? " " : " no") . "ignorecase"
-    let &ignorecase = b:match_ignorecase
-  endif
+  let restore_options = s:RestoreOptions()
   let startpos = [line("."), col(".")]
   " save v:count1 variable, might be reset from the restore_cursor command
   let level = v:count1
