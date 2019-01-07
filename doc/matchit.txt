@@ -72,12 +72,8 @@ for how to specify matching patterns.
 
 MODES:			*matchit-modes* *matchit-v_%* *matchit-o_%*
 
-Mostly, % and related motions (|g%| and |[%| and |]%|) work just like built-in
-|motion| commands in |Operator-pending| and |Visual| modes.  However, you
-cannot make these motions |linewise| or |characterwise|, since the |:omap|s
-that define them start with "v" in order to make the default behavior
-inclusive.  (See |o_v|.)  In other words, "dV%" will not work.  The
-work-around is to go through Visual mode:  "V%d" will work.
+Mostly, % and related motions (|g%| and |[%| and |]%|) should just work like built-in
+|motion| commands in |Operator-pending| and |Visual| modes (as of 8.1.648)
 
 LANGUAGES:					*matchit-languages*
 
@@ -388,10 +384,6 @@ Just because I know about a bug does not mean that it is on my todo list.  I
 try to respond to reports of bugs that cause real problems.  If it does not
 cause serious problems, or if there is a work-around, a bug may sit there for
 a while.  Moral:  if a bug (known or not) bothers you, let me know.
-
-The various maps defined in the script may have undesired effects.  E.g.,
-"yV%" would normally work linewise, but the plugin mapping makes it
-characterwise.
 
 It would be nice if "\0" were recognized as the entire pattern.  That is, it
 would be nice if "foo:\end\0" had the same effect as "\(foo\):\end\1".  I may
