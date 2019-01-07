@@ -64,9 +64,8 @@ nnoremap <silent> <Plug>(MatchitNormalMultiBackward) :<C-U>call matchit#MultiMat
 nnoremap <silent> <Plug>(MatchitNormalMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>
 vnoremap <silent> <Plug>(MatchitVisualMultiBackward) :<C-U>call matchit#MultiMatch("bW", "n")<CR>m'gv``
 vnoremap <silent> <Plug>(MatchitVisualMultiForward)  :<C-U>call matchit#MultiMatch("W",  "n")<CR>m'gv``
-" TODO: remove the charwise motion `v`
-onoremap <silent> <Plug>(MatchitOperationMultiBackward) v:<C-U>call matchit#MultiMatch("bW", "o")<CR>
-onoremap <silent> <Plug>(MatchitOperationMultiForward)  v:<C-U>call matchit#MultiMatch("W",  "o")<CR>
+onoremap <silent> <Plug>(MatchitOperationMultiBackward) <C-U>call matchit#MultiMatch("bW", "o")<CR>
+onoremap <silent> <Plug>(MatchitOperationMultiForward)  <C-U>call matchit#MultiMatch("W",  "o")<CR>
 
 nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
 nmap <silent> ]% <Plug>(MatchitNormalMultiForward)

@@ -567,6 +567,9 @@ fun! matchit#MultiMatch(spflag, mode)
   let startpos = [line("."), col(".")]
   " save v:count1 variable, might be reset from the restore_cursor command
   let level = v:count1
+  if a:mode == "o" && mode(1) !~# '[vV]'
+    exe "norm! v"
+  endif
 
   " First step:  if not already done, set the script variables
   "   s:do_BR   flag for whether there are backrefs
