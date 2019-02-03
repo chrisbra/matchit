@@ -7,7 +7,7 @@
 "  Previous Maintainer:  Benji Fisher PhD   <benji@member.AMS.org>
 
 " Documentation:
-"  The documentation is in a separate file, matchit.txt .
+"  The documentation is in a separate file: ../doc/matchit.txt
 
 " Credits:
 "  Vim editor by Bram Moolenaar (Thanks, Bram!)
