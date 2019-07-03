@@ -33,9 +33,8 @@ function s:RestoreOptions()
     let restore_options .= (&ic ? " " : " no") . "ignorecase"
     let &ignorecase = b:match_ignorecase
   endif
-  " always restore ve setting, as it might be set because of selection=exclusive
-  let restore_options = " ve=" . &ve . restore_options
   if &ve != ''
+    let restore_options = " ve=" . &ve . restore_options
     set ve=
   endif
   return restore_options
