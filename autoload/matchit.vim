@@ -214,7 +214,7 @@ function matchit#Match_wrapper(word, forward, mode) range
   if &selection isnot# 'inclusive'
     " move cursor one pos to the right, because selection is not inclusive
     " add virtualedit=onemore, to make it work even when the match ends the " line
-    if !(col('.') < col('$')-1) && a:mode =~ '[vV]'
+    if !(col('.') < col('$')-1) && a:mode == 'v'
       set ve=onemore
     endif
     norm! l
