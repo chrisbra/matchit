@@ -1,6 +1,6 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  autload script of matchit plugin, see ../plugin/matchit.vim
-"  Last Change: 2019 Jan 28
+"  Last Change: 2019 Oct 24
 
 let s:last_mps = ""
 let s:last_words = ":"
