@@ -42,14 +42,14 @@ endfunction
 
 function matchit#Match_wrapper(word, forward, mode) range
   let restore_options = s:RestoreOptions()
-  " If this function was called from Visual mode, make sure that the cursor
-  " is at the correct end of the Visual range:
-  if a:mode == "v"
-    execute "normal! gv\<Esc>"
+  if a:mode =~# "v" && mode(1) =~# 'ni'
+    exe "norm! gv"
   elseif a:mode == "o" && mode(1) !~# '[vV]'
     exe "norm! v"
-  elseif a:mode == "n" && mode(1) =~# 'ni'
-    exe "norm! v"
+  " If this function was called from Visual mode, make sure that the cursor
+  " is at the correct end of the Visual range:
+  elseif a:mode == "v"
+    execute "normal! gv\<Esc>"
   endif
   " In s:CleanUp(), we may need to check whether the cursor moved forward.
   let startpos = [line("."), col(".")]
