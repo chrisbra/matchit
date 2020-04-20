@@ -1,4 +1,4 @@
-# matchit [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/chrisbra)
+# matchit [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/cb%40256bit.org)
 Vim matchit plugin (upstream repository)
 
 The upstream maintained matchit plugin. The original has been created and
