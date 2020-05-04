@@ -1,7 +1,7 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  Maintainer:  Christian Brabandt
-"  Version:     1.17
-"  Last Change: 2019 Oct 24
+"  Version:     1.18
+"  Last Change: 2020 May 4
 "  Repository:  https://github.com/chrisbra/matchit
 "  Previous URL:http://www.vim.org/script.php?script_id=39
 "  Previous Maintainer:  Benji Fisher PhD   <benji@member.AMS.org>
@@ -53,13 +53,6 @@ xnoremap <silent> <Plug>(MatchitVisualBackward)    :<C-U>call matchit#Match_wrap
 onoremap <silent> <Plug>(MatchitOperationForward)  :<C-U>call matchit#Match_wrapper('',1,'o')<CR>
 onoremap <silent> <Plug>(MatchitOperationBackward) :<C-U>call matchit#Match_wrapper('',0,'o')<CR>
 
-nmap <silent> %  <Plug>(MatchitNormalForward)
-nmap <silent> g% <Plug>(MatchitNormalBackward)
-xmap <silent> %  <Plug>(MatchitVisualForward)
-xmap <silent> g% <Plug>(MatchitVisualBackward)
-omap <silent> %  <Plug>(MatchitOperationForward)
-omap <silent> g% <Plug>(MatchitOperationBackward)
-
 " Analogues of [{ and ]} using matching patterns:
 nnoremap <silent> <Plug>(MatchitNormalMultiBackward)    :<C-U>call matchit#MultiMatch("bW", "n")<CR>
 nnoremap <silent> <Plug>(MatchitNormalMultiForward)     :<C-U>call matchit#MultiMatch("W",  "n")<CR>
@@ -68,16 +61,28 @@ xnoremap <silent> <Plug>(MatchitVisualMultiForward)     :<C-U>call matchit#Multi
 onoremap <silent> <Plug>(MatchitOperationMultiBackward) :<C-U>call matchit#MultiMatch("bW", "o")<CR>
 onoremap <silent> <Plug>(MatchitOperationMultiForward)  :<C-U>call matchit#MultiMatch("W",  "o")<CR>
 
-nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
-nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
-xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
-xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
-omap <silent> [% <Plug>(MatchitOperationMultiBackward)
-omap <silent> ]% <Plug>(MatchitOperationMultiForward)
-
 " text object:
 xmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
-xmap a% <Plug>(MatchitVisualTextObject)
+
+if !exists("g:no_plugin_maps")
+  nmap <silent> %  <Plug>(MatchitNormalForward)
+  nmap <silent> g% <Plug>(MatchitNormalBackward)
+  xmap <silent> %  <Plug>(MatchitVisualForward)
+  xmap <silent> g% <Plug>(MatchitVisualBackward)
+  omap <silent> %  <Plug>(MatchitOperationForward)
+  omap <silent> g% <Plug>(MatchitOperationBackward)
+
+  " Analogues of [{ and ]} using matching patterns:
+  nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
+  nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
+  xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
+  xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
+  omap <silent> [% <Plug>(MatchitOperationMultiBackward)
+  omap <silent> ]% <Plug>(MatchitOperationMultiForward)
+
+  " Text object
+  xmap a% <Plug>(MatchitVisualTextObject)
+endif
 
 " Call this function to turn on debugging information.  Every time the main
 " script is run, buffer variables will be saved.  These can be used directly
