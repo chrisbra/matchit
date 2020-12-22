@@ -42,6 +42,13 @@ endfunction
 
 function matchit#Match_wrapper(word, forward, mode) range
   let restore_options = s:RestoreOptions()
+  " In s:CleanUp(), we may need to check whether the cursor moved forward.
+  let startpos = [line("."), col(".")]
+  " if a count has been applied, use the default [count]% mode (see :h N%)
+  if v:count
+    exe "normal! " . v:count . "%"
+    return s:CleanUp(restore_options, a:mode, startpos)
+  end
   if a:mode =~# "v" && mode(1) =~# 'ni'
     exe "norm! gv"
   elseif a:mode == "o" && mode(1) !~# '[vV]'
@@ -51,13 +58,7 @@ function matchit#Match_wrapper(word, forward, mode) range
   elseif a:mode == "v"
     execute "normal! gv\<Esc>"
   endif
-  " In s:CleanUp(), we may need to check whether the cursor moved forward.
-  let startpos = [line("."), col(".")]
   " Use default behavior if called with a count.
-  if v:count
-    exe "normal! " . v:count . "%"
-    return s:CleanUp(restore_options, a:mode, startpos)
-  end
 
   " First step:  if not already done, set the script variables
   "   s:do_BR   flag for whether there are backrefs
