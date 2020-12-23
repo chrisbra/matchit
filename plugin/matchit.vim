@@ -1,7 +1,7 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  Maintainer:  Christian Brabandt
 "  Version:     1.18
-"  Last Change: 2020 May 4
+"  Last Change: 2020 Dec 23
 "  Repository:  https://github.com/chrisbra/matchit
 "  Previous URL:http://www.vim.org/script.php?script_id=39
 "  Previous Maintainer:  Benji Fisher PhD   <benji@member.AMS.org>

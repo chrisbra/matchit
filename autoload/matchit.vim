@@ -216,7 +216,8 @@ function matchit#Match_wrapper(word, forward, mode) range
   let sp_return = searchpair(ini, mid, fin, flag, skip)
   if &selection isnot# 'inclusive' && a:mode == 'v'
     " move cursor one pos to the right, because selection is not inclusive
-    " add virtualedit=onemore, to make it work even when the match ends the " line
+    " add virtualedit=onemore, to make it work even when the match ends the
+    " line
     if !(col('.') < col('$')-1)
       set ve=onemore
     endif
