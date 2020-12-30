@@ -58,7 +58,6 @@ function matchit#Match_wrapper(word, forward, mode) range
   elseif a:mode == "v"
     execute "normal! gv\<Esc>"
   endif
-  " Use default behavior if called with a count.
 
   " First step:  if not already done, set the script variables
   "   s:do_BR   flag for whether there are backrefs
@@ -219,7 +218,7 @@ function matchit#Match_wrapper(word, forward, mode) range
     " add virtualedit=onemore, to make it work even when the match ends the
     " line
     if !(col('.') < col('$')-1)
-      set ve=onemore
+      let eolmark=1 " flag to set a mark on eol (since we cannot move there) 
     endif
     norm! l
   endif
@@ -229,6 +228,9 @@ function matchit#Match_wrapper(word, forward, mode) range
   normal! m'
   if sp_return > 0
     execute final_position
+  endif
+  if exists('eolmark') && eolmark
+    call setpos("''", [0, line('.'), col('$'), 0]) " set mark on the eol
   endif
   return s:CleanUp(restore_options, a:mode, startpos, mid.'\|'.fin)
 endfun
