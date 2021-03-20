@@ -2,6 +2,9 @@
 "  autload script of matchit plugin, see ../plugin/matchit.vim
 "  Last Change: Mar 01, 2020
 
+if exists('s:loaded') | finish | endif
+let s:loaded = v:true
+
 let s:last_mps = ""
 let s:last_words = ":"
 let s:patBR = ""
