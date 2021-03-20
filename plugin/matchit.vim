@@ -46,40 +46,40 @@ let g:loaded_matchit = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
-nnoremap <silent> <Plug>(MatchitNormalForward)     :<C-U>call matchit#Match_wrapper('',1,'n')<CR>
-nnoremap <silent> <Plug>(MatchitNormalBackward)    :<C-U>call matchit#Match_wrapper('',0,'n')<CR>
-xnoremap <silent> <Plug>(MatchitVisualForward)     :<C-U>call matchit#Match_wrapper('',1,'v')<CR>
+nnoremap <Plug>(MatchitNormalForward)     <Cmd>call matchit#Match_wrapper('',1,'n')<CR>
+nnoremap <Plug>(MatchitNormalBackward)    <Cmd>call matchit#Match_wrapper('',0,'n')<CR>
+xnoremap <silent> <Plug>(MatchitVisualForward) <C-\><C-N><Cmd>call matchit#Match_wrapper('',1,'v')<CR>
       \:if col("''") != col("$") \| exe ":normal! m'" \| endif<cr>gv``
-xnoremap <silent> <Plug>(MatchitVisualBackward)    :<C-U>call matchit#Match_wrapper('',0,'v')<CR>m'gv``
-onoremap <silent> <Plug>(MatchitOperationForward)  :<C-U>call matchit#Match_wrapper('',1,'o')<CR>
-onoremap <silent> <Plug>(MatchitOperationBackward) :<C-U>call matchit#Match_wrapper('',0,'o')<CR>
+xnoremap <Plug>(MatchitVisualBackward)    <Cmd>call matchit#Match_wrapper('',0,'v')<CR>m'gv``
+onoremap <Plug>(MatchitOperationForward)  <Cmd>call matchit#Match_wrapper('',1,'o')<CR>
+onoremap <Plug>(MatchitOperationBackward) <Cmd>call matchit#Match_wrapper('',0,'o')<CR>
 
 " Analogues of [{ and ]} using matching patterns:
-nnoremap <silent> <Plug>(MatchitNormalMultiBackward)    :<C-U>call matchit#MultiMatch("bW", "n")<CR>
-nnoremap <silent> <Plug>(MatchitNormalMultiForward)     :<C-U>call matchit#MultiMatch("W",  "n")<CR>
-xnoremap <silent> <Plug>(MatchitVisualMultiBackward)    :<C-U>call matchit#MultiMatch("bW", "n")<CR>m'gv``
-xnoremap <silent> <Plug>(MatchitVisualMultiForward)     :<C-U>call matchit#MultiMatch("W",  "n")<CR>m'gv``
-onoremap <silent> <Plug>(MatchitOperationMultiBackward) :<C-U>call matchit#MultiMatch("bW", "o")<CR>
-onoremap <silent> <Plug>(MatchitOperationMultiForward)  :<C-U>call matchit#MultiMatch("W",  "o")<CR>
+nnoremap <Plug>(MatchitNormalMultiBackward)    <Cmd>call matchit#MultiMatch("bW", "n")<CR>
+nnoremap <Plug>(MatchitNormalMultiForward)     <Cmd>call matchit#MultiMatch("W",  "n")<CR>
+xnoremap <Plug>(MatchitVisualMultiBackward)    <C-\><C-N><Cmd>call matchit#MultiMatch("bW", "n")<CR>m'gv``
+xnoremap <Plug>(MatchitVisualMultiForward)     <C-\><C-N><Cmd>call matchit#MultiMatch("W",  "n")<CR>m'gv``
+onoremap <Plug>(MatchitOperationMultiBackward) <Cmd>call matchit#MultiMatch("bW", "o")<CR>
+onoremap <Plug>(MatchitOperationMultiForward)  <Cmd>call matchit#MultiMatch("W",  "o")<CR>
 
 " text object:
-xmap <silent> <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
+xmap <Plug>(MatchitVisualTextObject) <Plug>(MatchitVisualMultiBackward)o<Plug>(MatchitVisualMultiForward)
 
 if !exists("g:no_plugin_maps")
-  nmap <silent> %  <Plug>(MatchitNormalForward)
-  nmap <silent> g% <Plug>(MatchitNormalBackward)
-  xmap <silent> %  <Plug>(MatchitVisualForward)
-  xmap <silent> g% <Plug>(MatchitVisualBackward)
-  omap <silent> %  <Plug>(MatchitOperationForward)
-  omap <silent> g% <Plug>(MatchitOperationBackward)
+  nmap %  <Plug>(MatchitNormalForward)
+  nmap g% <Plug>(MatchitNormalBackward)
+  xmap %  <Plug>(MatchitVisualForward)
+  xmap g% <Plug>(MatchitVisualBackward)
+  omap %  <Plug>(MatchitOperationForward)
+  omap g% <Plug>(MatchitOperationBackward)
 
   " Analogues of [{ and ]} using matching patterns:
-  nmap <silent> [% <Plug>(MatchitNormalMultiBackward)
-  nmap <silent> ]% <Plug>(MatchitNormalMultiForward)
-  xmap <silent> [% <Plug>(MatchitVisualMultiBackward)
-  xmap <silent> ]% <Plug>(MatchitVisualMultiForward)
-  omap <silent> [% <Plug>(MatchitOperationMultiBackward)
-  omap <silent> ]% <Plug>(MatchitOperationMultiForward)
+  nmap [% <Plug>(MatchitNormalMultiBackward)
+  nmap ]% <Plug>(MatchitNormalMultiForward)
+  xmap [% <Plug>(MatchitVisualMultiBackward)
+  xmap ]% <Plug>(MatchitVisualMultiForward)
+  omap [% <Plug>(MatchitOperationMultiBackward)
+  omap ]% <Plug>(MatchitOperationMultiForward)
 
   " Text object
   xmap a% <Plug>(MatchitVisualTextObject)
