@@ -3,7 +3,7 @@
 "  Last Change: Jun 10, 2021
 
 " Neovim does not support scriptversion
-if has("scriptversion-4")
+if has("vimscript-4")
   scriptversion 4
 endif
 
