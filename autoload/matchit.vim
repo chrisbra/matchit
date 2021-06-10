@@ -1,8 +1,11 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  autload script of matchit plugin, see ../plugin/matchit.vim
-"  Last Change: Mar 01, 2020
+"  Last Change: Jun 10, 2021
 
-scriptversion 4
+" Neovim does not support scriptversion
+if has("scriptversion-4")
+  scriptversion 4
+endif
 
 let s:last_mps = ""
 let s:last_words = ":"
