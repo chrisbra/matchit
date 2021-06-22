@@ -62,6 +62,7 @@ function matchit#Match_wrapper(word, forward, mode) range
   " is at the correct end of the Visual range:
   elseif a:mode == "v"
     execute "normal! gv\<Esc>"
+    let startpos = [line("."), col(".")]
   endif
 
   " First step:  if not already done, set the script variables
