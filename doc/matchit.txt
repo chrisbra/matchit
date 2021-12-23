@@ -4,7 +4,7 @@ For instructions on installing this file, type
 	`:help matchit-install`
 inside Vim.
 
-For Vim version 8.1.  Last change:  2020 Mar 01
+For Vim version 8.2.  Last change:  2021 Dec 23
 
 
 		  VIM REFERENCE MANUAL    by Benji Fisher et al
@@ -147,6 +147,9 @@ To use the matchit plugin add this line to your |vimrc|: >
 	packadd! matchit
 
 The script should start working the next time you start Vim.
+
+To use the matchit plugin after Vim has started, execute this command: >
+       packadd matchit
 
 (Earlier versions of the script did nothing unless a |buffer-variable| named
 |b:match_words| was defined.  Even earlier versions contained autocommands
