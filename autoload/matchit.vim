@@ -1,6 +1,6 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  autload script of matchit plugin, see ../plugin/matchit.vim
-"  Last Change: Jun 10, 2021
+"  Last Change: Jan 24, 2022
 
 " Neovim does not support scriptversion
 if has("vimscript-4")
@@ -760,9 +760,9 @@ fun! s:ParseSkip(str)
       let skip = "synIDattr(synID(line('.'),col('.'),1),'name') !~? '" ..
         \ strpart(skip,2) .. "'"
     elseif skip[0] == "r"
-      let skip = "strpart(getline('.'),0,col('.'))=~'" . strpart(skip,2). "'"
+      let skip = "strpart(getline('.'),0,col('.'))=~'" .. strpart(skip,2) .. "'"
     elseif skip[0] == "R"
-      let skip = "strpart(getline('.'),0,col('.'))!~'" . strpart(skip,2). "'"
+      let skip = "strpart(getline('.'),0,col('.'))!~'" .. strpart(skip,2) .. "'"
     endif
   endif
   return skip
