@@ -753,15 +753,15 @@ endfun
 fun! s:ParseSkip(str)
   let skip = a:str
   if skip[1] == ":"
-    if skip[0] == "s"
+    if skip[0] ==# "s"
       let skip = "synIDattr(synID(line('.'),col('.'),1),'name') =~? '" ..
         \ strpart(skip,2) .. "'"
-    elseif skip[0] == "S"
+    elseif skip[0] ==# "S"
       let skip = "synIDattr(synID(line('.'),col('.'),1),'name') !~? '" ..
         \ strpart(skip,2) .. "'"
-    elseif skip[0] == "r"
+    elseif skip[0] ==# "r"
       let skip = "strpart(getline('.'),0,col('.'))=~'" .. strpart(skip,2) .. "'"
-    elseif skip[0] == "R"
+    elseif skip[0] ==# "R"
       let skip = "strpart(getline('.'),0,col('.'))!~'" .. strpart(skip,2) .. "'"
     endif
   endif
