@@ -42,6 +42,10 @@ function s:RestoreOptions()
     let restore_options = " ve=" .. &ve .. restore_options
     set ve=
   endif
+  if &smartcase
+    let restore_options = " smartcase " .. restore_options
+    set nosmartcase
+  endif
   return restore_options
 endfunction
 
