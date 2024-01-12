@@ -83,9 +83,9 @@ function matchit#Match_wrapper(word, forward, mode) range
     let s:last_mps = &mps
     " quote the special chars in 'matchpairs', replace [,:] with \| and then
     " append the builtin pairs (/*, */, #if, #ifdef, #ifndef, #else, #elif,
-    " #endif)
+    " #elifdef, #elifndef, #endif)
     let default = escape(&mps, '[$^.*~\\/?]') .. (strlen(&mps) ? "," : "") ..
-      \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\>:#\s*endif\>'
+      \ '\/\*:\*\/,#\s*if\%(n\=def\)\=:#\s*else\>:#\s*elif\%(n\=def\)\=\>:#\s*endif\>'
     " s:all = pattern with all the keywords
     let match_words = match_words .. (strlen(match_words) ? "," : "") .. default
     let s:last_words = match_words
