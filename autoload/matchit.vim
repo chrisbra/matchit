@@ -1,6 +1,6 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  autload script of matchit plugin, see ../plugin/matchit.vim
-"  Last Change: Jan 24, 2022
+"  Last Change: May 20, 2024
 
 " Neovim does not support scriptversion
 if has("vimscript-4")
