@@ -5,8 +5,8 @@ The upstream maintained matchit plugin. The original has been created and
 maintained by [Benji Fisher](https://github.com/benjifisher/matchit.zip),
 however that looks now unmaintained.
 
-Once in a while, a snapshot from here will be send to Bram for inclusion and
-distribution with [Vim][1]
+Every once in a while, a snapshot from here will be sent to [Vim][1] upstream for 
+distribution with Vim.
 
 ### Installation
 The plugin is distributed as package and should be cloned below `pack/dist/opt`
