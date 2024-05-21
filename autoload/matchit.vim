@@ -101,8 +101,8 @@ function matchit#Match_wrapper(word, forward, mode) range
       let s:pat = s:ParseWords(match_words)
     endif
     let s:all = substitute(s:pat, s:notslash .. '\zs[,:]\+', '\\|', 'g')
-    " un-escape \, to ,
-    let s:all = substitute(s:all, '\\,', ',', 'g')
+    " un-escape \, and \: to , and :
+    let s:all = substitute(s:all, s:notslash .. '\zs\\\(:\|,\)', '\1', 'g')
     " Just in case there are too many '\(...)' groups inside the pattern, make
     " sure to use \%(...) groups, so that error E872 can be avoided
     let s:all = substitute(s:all, '\\(', '\\%(', 'g')
@@ -538,8 +538,8 @@ fun! s:Choose(patterns, string, comma, branch, prefix, suffix, ...)
   else
     let currpat = substitute(current, s:notslash .. a:branch, '\\|', 'g')
   endif
-  " un-escape \, to ,
-  let currpat = substitute(currpat, '\\,', ',', 'g')
+  " un-escape \, and \: to , and :
+  let currpat = substitute(currpat, s:notslash .. '\zs\\\(:\|,\)', '\1', 'g')
   while a:string !~ a:prefix .. currpat .. a:suffix
     let tail = strpart(tail, i)
     let i = matchend(tail, s:notslash .. a:comma)
@@ -552,6 +552,8 @@ fun! s:Choose(patterns, string, comma, branch, prefix, suffix, ...)
     else
       let currpat = substitute(current, s:notslash .. a:branch, '\\|', 'g')
     endif
+    " un-escape \, and \: to , and :
+    let currpat = substitute(currpat, s:notslash .. '\zs\\\(:\|,\)', '\1', 'g')
     if a:0
       let alttail = strpart(alttail, j)
       let j = matchend(alttail, s:notslash .. a:comma)
