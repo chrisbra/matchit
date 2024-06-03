@@ -1,13 +1,11 @@
-*matchit.txt*   Extended "%" matching
+*matchit.txt* Extended "%" matching  Last change: 2024 Jun 03
+
+		VIM REFERENCE MANUAL    by Benji Fisher et al
 
 For instructions on installing this file, type
 	`:help matchit-install`
 inside Vim.
 
-For Vim version 9.1.  Last change:  2024 May 20
-
-
-		  VIM REFERENCE MANUAL    by Benji Fisher et al
 
 *matchit* *matchit.vim*
 
@@ -174,7 +172,7 @@ defined automatically.
 
 2.1 Temporarily disable the matchit plugin	*matchit-disable* *:MatchDisable*
 
-To temporarily disable the matchit plugin, after it hat been loaded,
+To temporarily disable the matchit plugin, after it has been loaded,
 execute this command: >
 	:MatchDisable
 
