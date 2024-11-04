@@ -1,0 +1,9 @@
+.*.un~
+.*.sw*
+# ignore vimballs
+*.vba
+*.vmb
+# ignore *.orig files
+*.orig
+# tags file
+doc/tags
