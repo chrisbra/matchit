@@ -309,7 +309,7 @@ expression >
 if keywords are only recognized after the start of a line or after a
 semicolon (;), with optional white space.
 
-					*matchit-backref* *matchit-\1*
+						*matchit-backref*
 In any group, the expressions |\1|, |\2|, ..., |\9| refer to parts of the
 INITIAL pattern enclosed in |\(|escaped parentheses|\)|.  These are referred
 to as back references, or backrefs.  For example, >
