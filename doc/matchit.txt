@@ -2,10 +2,6 @@
 
 		VIM REFERENCE MANUAL    by Benji Fisher et al
 
-For instructions on installing this file, type
-	`:help matchit-install`
-inside Vim.
-
 
 *matchit* *matchit.vim*
 
