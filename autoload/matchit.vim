@@ -1,6 +1,6 @@
 "  matchit.vim: (global plugin) Extended "%" matching
 "  autload script of matchit plugin, see ../plugin/matchit.vim
-"  Last Change: Jan 09, 2026
+"  Last Change: Mar 30, 2026
 
 " Neovim does not support scriptversion
 if has("vimscript-4")
@@ -124,7 +124,7 @@ function matchit#Match_wrapper(word, forward, mode) range
     let s:all = substitute(s:all, s:notslash .. '\zs\\\(:\|,\)', '\1', 'g')
     " Just in case there are too many '\(...)' groups inside the pattern, make
     " sure to use \%(...) groups, so that error E872 can be avoided
-    let s:all = substitute(s:all, '\\(', '\\%(', 'g')
+    let s:all = substitute(s:all, s:notslash .. '\zs\\(', '\\%(', 'g')
     let s:all = '\%(' .. s:all .. '\)'
     if exists("b:match_debug")
       let b:match_pat = s:pat
