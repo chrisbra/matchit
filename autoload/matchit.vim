@@ -339,8 +339,8 @@ fun! s:InsertRefs(groupBR, prefix, group, suffix, matchline)
     if table[d] != "-"
       let backref = substitute(a:matchline, a:prefix .. word .. a:suffix,
         \ '\' .. table[d], "")
-        " Are there any other characters that should be escaped?
-      let backref = escape(backref, '*,:')
+      " escape magic pattern metacharacters and matchit special characters [,:]
+      let backref = escape(backref, '\.*[^$~,:')
       execute s:Ref(ini, d, "start", "len")
       let ini = strpart(ini, 0, start) .. backref .. strpart(ini, start+len)
       let tailBR = substitute(tailBR, s:notslash .. '\zs\\' .. d,
